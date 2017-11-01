@@ -1,0 +1,6 @@
+C:\Users\stark\Documents\Visual Studio 2017\Projects\ACSWebUI\ACSWebUI\ACSWebUI.Database\bin\x86\Debug\ACSWebUI.Database.dll
+C:\Users\stark\Documents\Visual Studio 2017\Projects\ACSWebUI\ACSWebUI\ACSWebUI.Database\bin\x86\Debug\ACSWebUI.Database.pdb
+C:\Users\stark\Documents\Visual Studio 2017\Projects\ACSWebUI\ACSWebUI\ACSWebUI.Database\obj\x86\Debug\ACSWebUI.Database.csprojResolveAssemblyReference.cache
+C:\Users\stark\Documents\Visual Studio 2017\Projects\ACSWebUI\ACSWebUI\ACSWebUI.Database\obj\x86\Debug\ACSWebUI.Database.csproj.CoreCompileInputs.cache
+C:\Users\stark\Documents\Visual Studio 2017\Projects\ACSWebUI\ACSWebUI\ACSWebUI.Database\obj\x86\Debug\ACSWebUI.Database.dll
+C:\Users\stark\Documents\Visual Studio 2017\Projects\ACSWebUI\ACSWebUI\ACSWebUI.Database\obj\x86\Debug\ACSWebUI.Database.pdb
