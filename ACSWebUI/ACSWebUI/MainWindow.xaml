@@ -8,10 +8,13 @@
                       Title="Access Control System"
                       MinWidth="600"
                       MinHeight="480"
-                      DataContext="{Binding MainViewModel, Source={StaticResource Locator}}"
+                      DataContext="{Binding ViewModel, Source={StaticResource Locator}}"
                       WindowStartupLocation="CenterScreen"
                       WindowState="Maximized"
                       mc:Ignorable="d">
+    <Window.InputBindings>
+        <KeyBinding Key="F12" Command="{Binding OpenDebugCommand}" />
+    </Window.InputBindings>
     <Grid x:Name="MainGrid" />
     <controls:MetroWindow.Flyouts>
         <controls:FlyoutsControl>

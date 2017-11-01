@@ -72,7 +72,8 @@ namespace ACSWebUI.ViewModel.Flyouts {
             var obj = new {
                 success = "",
                 data = new {
-                    html = ""
+                    html = "",
+                    deviceType = ""
                 }
             };
             var json = JsonConvert.DeserializeAnonymousType(response, obj);
@@ -91,6 +92,10 @@ namespace ACSWebUI.ViewModel.Flyouts {
                 return;
 
             Locator.Browser.LoadHtml(json.data.html, "http://osora.ru/scanner");
+
+            if (json.data.deviceType == "office_kpp")
+                Locator.ViewModel.RunCaupture();
+            await Task.Delay(1000);
             IsAuthorizationResponceVisibile = Visibility.Visible;
             IsProgressRingActive = false;
             AuthorizationResponce = "Устройство успешно распознано";

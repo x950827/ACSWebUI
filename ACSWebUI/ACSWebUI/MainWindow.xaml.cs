@@ -13,7 +13,7 @@ namespace ACSWebUI {
             Locator.Browser.RegisterJsObject("viewModel", Locator.ViewModel);
             MainGrid.Children.Add(Locator.Browser);
             Closing += OnClosing;
-            //Closed += (sender, args) => Locator.MainViewModel.StopCapture();
+            Closed += (sender, args) => Locator.ViewModel.StopCapture();
         }
 
         private async void OnClosing(object sender, CancelEventArgs e) {
@@ -38,7 +38,7 @@ namespace ACSWebUI {
 
             if (!shutdown)
                 return;
-            //Locator.Locator.ViewModel.StopCapture();
+            Locator.ViewModel.StopCapture();
             Locator.Cleanup();
             Application.Current.Shutdown();
         }

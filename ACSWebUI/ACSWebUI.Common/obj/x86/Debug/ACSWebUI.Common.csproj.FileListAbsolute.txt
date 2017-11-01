@@ -4,3 +4,5 @@ C:\Users\stark\Documents\Visual Studio 2017\Projects\ACSWebUI\ACSWebUI\ACSWebUI.
 C:\Users\stark\Documents\Visual Studio 2017\Projects\ACSWebUI\ACSWebUI\ACSWebUI.Common\obj\x86\Debug\ACSWebUI.Common.csproj.CoreCompileInputs.cache
 C:\Users\stark\Documents\Visual Studio 2017\Projects\ACSWebUI\ACSWebUI\ACSWebUI.Common\obj\x86\Debug\ACSWebUI.Common.dll
 C:\Users\stark\Documents\Visual Studio 2017\Projects\ACSWebUI\ACSWebUI\ACSWebUI.Common\obj\x86\Debug\ACSWebUI.Common.pdb
+C:\Users\stark\Documents\Visual Studio 2017\Projects\ACSWebUI\ACSWebUI\ACSWebUI.Common\bin\x86\Debug\Newtonsoft.Json.dll
+C:\Users\stark\Documents\Visual Studio 2017\Projects\ACSWebUI\ACSWebUI\ACSWebUI.Common\bin\x86\Debug\Newtonsoft.Json.xml
