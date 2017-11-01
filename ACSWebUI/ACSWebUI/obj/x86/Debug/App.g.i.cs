@@ -10,7 +10,6 @@
 //------------------------------------------------------------------------------
 
 using ACSWebUI;
-using ACSWebUI.Locator;
 using ACSWebUI.ViewModel;
 using System;
 using System.Diagnostics;

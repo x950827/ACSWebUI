@@ -1,11 +1,16 @@
-﻿using System.Windows;
+﻿using ACSWebUI.Locators;
+using CefSharp.Wpf;
+using GalaSoft.MvvmLight.Threading;
+using Microsoft.Practices.ServiceLocation;
 
-namespace ACSWebUI
-{
-    /// <summary>
-    /// Логика взаимодействия для App.xaml
-    /// </summary>
-    public partial class App : Application
-    {
+namespace ACSWebUI {
+    public partial class App {
+        public App() {
+            DispatcherHelper.Initialize();
+
+            Locator.SetAndReg();
+
+            ServiceLocator.Current.GetInstance<ChromiumWebBrowser>();
+        }
     }
 }

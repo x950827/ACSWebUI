@@ -1,12 +1,17 @@
 using System;
 using System.IO;
-using ACSWebUI.ViewModel;
+using ACSWebUI.Common.Functions.Editors;
+using ACSWebUI.Common.Functions.Readers;
+using ACSWebUI.Database;
+using ACSWebUI.Database.Functions.Editors;
+using ACSWebUI.Database.Functions.Readers;
+using ACSWebUI.ViewModel.Flyouts;
 using CefSharp;
 using CefSharp.Wpf;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
 
-namespace ACSWebUI.Locator {
+namespace ACSWebUI.Locators {
     public class Locator {
         static Locator() {
         }
@@ -25,10 +30,11 @@ namespace ACSWebUI.Locator {
             SimpleIoc.Default.Register<IWorkerReader, WorkerReader>();
             SimpleIoc.Default.Register<IPassageReader, PassageReader>();
             SimpleIoc.Default.Register<AuthorizationViewModel>();
-            SimpleIoc.Default.Register<AccessDatabase>();
+            SimpleIoc.Default.Register<WorkersDatabase>();
+            SimpleIoc.Default.Register<PassageDatabase>();
         }
 
-        public static ViewModel.ViewModel MainViewModel => ServiceLocator.Current.GetInstance<ViewModel.ViewModel>();
+        public static ViewModel.ViewModel ViewModel => ServiceLocator.Current.GetInstance<ViewModel.ViewModel>();
 
         public static ChromiumWebBrowser Browser => ServiceLocator.Current.GetInstance<ChromiumWebBrowser>();
 

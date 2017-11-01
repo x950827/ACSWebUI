@@ -4,14 +4,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:d1p1="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:ACSWebUI"
-             xmlns:locator="clr-namespace:ACSWebUI.Locator"
+             xmlns:locators="clr-namespace:ACSWebUI.Locators"
              d1p1:Ignorable="d"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
-            <locator:Locator xmlns:vm="clr-namespace:ACSWebUI.ViewModel"
-                             x:Key="Locator"
-                             d:IsDataSource="True" />
+            <locators:Locator xmlns:vm="clr-namespace:ACSWebUI.ViewModel"
+                              x:Key="Locator"
+                              d:IsDataSource="True" />
             <Style x:Key="DescriptionHeaderStyle" TargetType="Label">
                 <Setter Property="FontSize" Value="22" />
                 <Setter Property="HorizontalAlignment" Value="Center" />
