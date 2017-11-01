@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\stark\Documents\Visual Studio 2017\Projects\ACSWebUI\ACSWebUI\ACSWebUI\App.xaml
-3-1260861683
+4-1579615376
 
-111816465533
+16-497053830
 821021655779
-MainWindow.xaml;Resources\Icons.xaml;Resources\IconsNonShared.xaml;
+MainWindow.xaml;Resources\Icons.xaml;Resources\IconsNonShared.xaml;View\Flyouts\AuthorizationView.xaml;
 
-True
+False
 

@@ -1,60 +1,40 @@
-/*
-  In App.xaml:
-  <Application.Resources>
-      <vm:ViewModelLocator xmlns:vm="clr-namespace:ACSWebUI"
-                           x:Key="Locator" />
-  </Application.Resources>
-  
-  In the View:
-  DataContext="{Binding Source={StaticResource Locator}, Path=ViewModelName}"
-
-  You can also use Blend to do all this with the tool's support.
-  See http://www.galasoft.ch/mvvm
-*/
-
+using System;
+using System.IO;
 using ACSWebUI.ViewModel;
+using CefSharp;
+using CefSharp.Wpf;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
 
-namespace ACSWebUI.Locator
-{
-    /// <summary>
-    /// This class contains static references to all the view models in the
-    /// application and provides an entry point for the bindings.
-    /// </summary>
-    public class Locator
-    {
-        /// <summary>
-        /// Initializes a new instance of the ViewModelLocator class.
-        /// </summary>
-        public Locator()
-        {
+namespace ACSWebUI.Locator {
+    public class Locator {
+        static Locator() {
+        }
+
+        public static void SetAndReg() {
+            var settings = new CefSettings() {
+                RemoteDebuggingPort = 8088,
+                CachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CefSharp\\Cache")
+            };
+            Cef.Initialize(settings, true, null);
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
-
-            ////if (ViewModelBase.IsInDesignModeStatic)
-            ////{
-            ////    // Create design time view services and models
-            ////    SimpleIoc.Default.Register<IDataService, DesignDataService>();
-            ////}
-            ////else
-            ////{
-            ////    // Create run time view services and models
-            ////    SimpleIoc.Default.Register<IDataService, DataService>();
-            ////}
-
-            SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<ChromiumWebBrowser>();
+            SimpleIoc.Default.Register<ViewModel.ViewModel>();
+            SimpleIoc.Default.Register<IWorkerEditor, WorkerEditor>();
+            SimpleIoc.Default.Register<IPassageEditor, PassageEditor>();
+            SimpleIoc.Default.Register<IWorkerReader, WorkerReader>();
+            SimpleIoc.Default.Register<IPassageReader, PassageReader>();
+            SimpleIoc.Default.Register<AuthorizationViewModel>();
+            SimpleIoc.Default.Register<AccessDatabase>();
         }
 
-        public MainViewModel Main
-        {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<MainViewModel>();
-            }
-        }
-        
-        public static void Cleanup()
-        {
+        public static ViewModel.ViewModel MainViewModel => ServiceLocator.Current.GetInstance<ViewModel.ViewModel>();
+
+        public static ChromiumWebBrowser Browser => ServiceLocator.Current.GetInstance<ChromiumWebBrowser>();
+
+        public static AuthorizationViewModel AuthorizationViewModel => ServiceLocator.Current.GetInstance<AuthorizationViewModel>();
+
+        public static void Cleanup() {
             // TODO Clear the ViewModels
         }
     }

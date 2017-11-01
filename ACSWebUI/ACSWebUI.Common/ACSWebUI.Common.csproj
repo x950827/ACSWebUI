@@ -70,6 +70,7 @@
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -79,6 +80,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entity\PassageEntity.cs" />
+    <Compile Include="Entity\WorkerEntity.cs" />
+    <Compile Include="Functions\Editors\IPassageEditor.cs" />
+    <Compile Include="Functions\Editors\IWorkerEditor.cs" />
+    <Compile Include="Functions\Readers\IPassageReader.cs" />
+    <Compile Include="Functions\Readers\IWorkerReader.cs" />
+    <Compile Include="Model\Passage.cs" />
+    <Compile Include="Model\Worker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

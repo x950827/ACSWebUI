@@ -92,11 +92,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\PassageExtension.cs" />
+    <Compile Include="Extensions\WorkerExtension.cs" />
+    <Compile Include="Functions\Editors\PassageEditor.cs" />
+    <Compile Include="Functions\Editors\WorkerEditor.cs" />
+    <Compile Include="Functions\Readers\PassageReader.cs" />
+    <Compile Include="Functions\Readers\WorkerReader.cs" />
+    <Compile Include="PassageDatabase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WorkersDatabase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ACSWebUI.Common\ACSWebUI.Common.csproj">
+      <Project>{c9a76873-94e5-423d-8a31-cbe1661007af}</Project>
+      <Name>ACSWebUI.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

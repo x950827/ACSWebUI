@@ -14,12 +14,12 @@ namespace ACSWebUI.ViewModel
     /// See http://www.galasoft.ch/mvvm
     /// </para>
     /// </summary>
-    public class MainViewModel : ViewModelBase
+    public class ViewModel : ViewModelBase
     {
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
-        public MainViewModel()
+        public ViewModel()
         {
             ////if (IsInDesignMode)
             ////{

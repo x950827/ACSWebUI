@@ -1,0 +1,97 @@
+﻿<controls:Flyout x:Class="ACSWebUI.View.Flyouts.AuthorizationView"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:acsWebUi="clr-namespace:ACSWebUI"
+                 xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 Width="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type acsWebUi:MainWindow}}}"
+                 Height="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type acsWebUi:MainWindow}}}"
+                 d:DataContext="{Binding AuthorizationViewModel, Source={StaticResource Locator}}"
+                 d:DesignHeight="768"
+                 d:DesignWidth="1024"
+                 CloseButtonIsCancel="False"
+                 CloseButtonVisibility="Collapsed"
+                 IsAutoCloseEnabled="False"
+                 IsModal="True"
+                 IsOpen="{Binding IsFlyoutOpen, Mode=OneWay}"
+                 Position="Top"
+                 Theme="Dark"
+                 mc:Ignorable="d">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding OnLoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="67*" />
+            <RowDefinition Height="67*" />
+            <RowDefinition Height="67*" />
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0"
+               VerticalAlignment="Bottom"
+               HorizontalContentAlignment="Center"
+               VerticalContentAlignment="Center"
+               FontFamily="Tahoma"
+               FontSize="30"
+               Visibility="{Binding IsAuthorizationVisible}">
+            <TextBlock Text="Пожалуйста, проверьте ваше устройство на административной панели"
+                       TextAlignment="Center"
+                       TextWrapping="Wrap" />
+        </Label>
+
+        <TextBox Grid.Row="1"
+                 Margin="50,20,50,0"
+                 VerticalAlignment="Top"
+                 AutoWordSelection="True"
+                 FontSize="30"
+                 IsReadOnly="True"
+                 IsReadOnlyCaretVisible="False"
+                 Text="{Binding UniqueId}"
+                 TextAlignment="Center"
+                 TextWrapping="NoWrap"
+                 Visibility="{Binding IsAuthorizationVisible}" />
+
+        <Button Grid.Row="1"
+                Width="80"
+                Height="30"
+                Margin="0,0,100,60"
+                Command="{Binding CheckCommand}"
+                Style="{StaticResource SquareButtonStyle}"
+                Visibility="{Binding IsAuthorizationVisible}">
+            Проверить
+        </Button>
+
+        <Button Grid.Row="1"
+                Width="80"
+                Height="30"
+                Margin="100,0,0,60"
+                Command="{Binding ExitCommand}"
+                Style="{StaticResource AccentedSquareButtonStyle}"
+                Visibility="{Binding IsAuthorizationVisible}">
+            Выход
+        </Button>
+
+
+
+        <controls:ProgressRing Grid.Row="0"
+                               Grid.RowSpan="3"
+                               IsActive="{Binding IsProgressRingActive}" />
+
+        <Label Grid.Row="0"
+               Grid.RowSpan="3"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               Visibility="{Binding IsAuthorizationResponceVisibile}">
+            <TextBlock FontFamily="Tahoma"
+                       FontSize="30"
+                       Text="{Binding AuthorizationResponce}"
+                       TextAlignment="Center"
+                       TextWrapping="Wrap" />
+        </Label>
+
+    </Grid>
+</controls:Flyout>
