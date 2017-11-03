@@ -380,3 +380,22 @@
 [1103/104444.310:INFO:CONSOLE(299)] "Uncaught TypeError: viewModel.openAction is not a function", source: http://osora.ru/scanner (299)
 [1103/104450.263:INFO:CONSOLE(299)] "Uncaught TypeError: viewModel.openAction is not a function", source: http://osora.ru/scanner (299)
 [1103/104455.597:INFO:CONSOLE(299)] "Uncaught TypeError: viewModel.openAction is not a function", source: http://osora.ru/scanner (299)
+[1103/124307.025:ERROR:child_thread_impl.cc(762)] Request for unknown Channel-associated interface: ui::mojom::GpuMain
+[1103/124319.558:INFO:CONSOLE(420)] "Ready work.", source: http://osora.ru/scanner (420)
+[1103/124319.560:INFO:CONSOLE(724)] "Run ready. Start.", source: http://osora.ru/scanner (724)
+[1103/124319.713:INFO:CONSOLE(286)] "[object Object]", source: http://osora.ru/scanner (286)
+[1103/124319.729:INFO:CONSOLE(358)] "Time work: 4мс", source: http://osora.ru/scanner (358)
+[1103/124333.648:INFO:CONSOLE(562)] "Fri Nov 03 2017 12:43:33 GMT+0400 (RTZ 3 (зима))", source: http://osora.ru/scanner (562)
+[1103/160035.394:ERROR:child_thread_impl.cc(762)] Request for unknown Channel-associated interface: ui::mojom::GpuMain
+[1103/160042.473:INFO:CONSOLE(420)] "Ready work.", source: http://osora.ru/scanner (420)
+[1103/160042.474:INFO:CONSOLE(724)] "Run ready. Start.", source: http://osora.ru/scanner (724)
+[1103/160042.953:INFO:CONSOLE(286)] "[object Object]", source: http://osora.ru/scanner (286)
+[1103/160042.967:INFO:CONSOLE(315)] "Uncaught TypeError: Cannot read property 'forEach' of undefined", source: http://osora.ru/scanner (315)
+[1103/160043.048:INFO:CONSOLE(407)] "[object Object]", source: http://osora.ru/scanner (407)
+[1103/160352.515:ERROR:child_thread_impl.cc(762)] Request for unknown Channel-associated interface: ui::mojom::GpuMain
+[1103/160359.377:INFO:CONSOLE(420)] "Ready work.", source: http://osora.ru/scanner (420)
+[1103/160359.379:INFO:CONSOLE(724)] "Run ready. Start.", source: http://osora.ru/scanner (724)
+[1103/160359.906:INFO:CONSOLE(286)] "[object Object]", source: http://osora.ru/scanner (286)
+[1103/160359.910:INFO:CONSOLE(315)] "Uncaught TypeError: Cannot read property 'forEach' of undefined", source: http://osora.ru/scanner (315)
+[1103/160359.980:INFO:CONSOLE(407)] "[object Object]", source: http://osora.ru/scanner (407)
+[1103/160434.928:INFO:CONSOLE(1)] "Uncaught ReferenceError: ReceiveHistory is not defined", source: about:blank (1)

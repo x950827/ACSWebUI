@@ -1,7 +1,10 @@
 // ReSharper disable UnusedMember.Global
 // ReSharper disable InconsistentNaming
+// ReSharper disable ClassNeverInstantiated.Global
+
 
 using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using ACSWebUI.AdditionalObjects;
@@ -23,7 +26,7 @@ namespace ACSWebUI.ViewModel {
         private readonly IWorkerEditor workerEditor;
         private readonly IWorkerReader workerReader;
         private readonly IKmoonWriter kmoonWriter;
-        private IKmoonReader kmoonReader;
+        private readonly IKmoonReader kmoonReader;
         private readonly IpCamers ipCamera = new IpCamers();
 
         public ViewModel(IWorkerReader workerReader, IWorkerEditor workerEditor, IPassageReader passageReader, IPassageEditor passageEditor, IKmoonWriter kmoonWriter, IKmoonReader kmoonReader) {
@@ -35,10 +38,10 @@ namespace ACSWebUI.ViewModel {
             this.kmoonReader = kmoonReader;
         }
 
-        private Visibility testVisibility = Visibility.Hidden;
-        public Visibility TestVisibility {
-            get => testVisibility;
-            set => Set(() => TestVisibility, ref testVisibility, value);
+        private bool isKpp;
+        public bool IsKpp {
+            get => isKpp;
+            set => Set(() => IsKpp, ref isKpp, value);
         }
 
         public void RunCaupture() {
@@ -98,16 +101,22 @@ namespace ACSWebUI.ViewModel {
         }
 
         public void createSkip(string jsonMessage) {
-            //var obj = new {
-            //    info = new {
-            //        fio = "",
-            //        work_position = "",
-            //        temporary = "",
-            //        date_end = ""
-            //    }
-            //};
-            //var response = JsonConvert.DeserializeAnonymousType(jsonMessage, obj);
-            Locator.Browser.ExecuteScriptAsync(@"receiveWorkers();");
+            var obj = new {
+                info = new {
+                    fio = "",
+                    work_position = "",
+                    temporary = "",
+                    date_end = ""
+                }
+            };
+            var response = JsonConvert.DeserializeAnonymousType(jsonMessage, obj);
+            workerEditor.Add(new Worker {
+                fio = response.info.fio,
+                work_position = response.info.work_position,
+                temporary = int.Parse(response.info.temporary),
+                date_end = response.info.date_end
+            });
+            //Locator.Browser.ExecuteScriptAsync(@"receiveWorkers();");
         }
 
         public void encodeCard(string jsonMessage) {
@@ -119,29 +128,29 @@ namespace ACSWebUI.ViewModel {
         }
 
         public void changeWorker(string jsonMessage) {
-            //var obj = new {
-            //    info = new {
-            //        id_worker = "",
-            //        update = new {
-            //            fio = "",
-            //            work_position = "",
-            //            active = "",
-            //            temporary = "",
-            //            date_end = ""
-            //        }
-            //    }
-            //};
-            //var resp = JsonConvert.DeserializeAnonymousType(jsonMessage, obj);
-            //var worker = new Worker {
-            //    id_worker = Convert.ToInt32(resp.info.id_worker),
-            //    work_position = resp.info.update.work_position,
-            //    active = Convert.ToInt32(resp.info.update.active),
-            //    temporary = Convert.ToInt32(resp.info.update.temporary),
-            //    date_end = resp.info.update.date_end,
-            //    fio = resp.info.update.fio
-            //};
-            //workerEditor.Change(worker);
-            Locator.Browser.ExecuteScriptAsync(@"receiveWorkers();");
+            var obj = new {
+                info = new {
+                    id_worker = "",
+                    update = new {
+                        fio = "",
+                        work_position = "",
+                        active = "",
+                        temporary = "",
+                        date_end = ""
+                    }
+                }
+            };
+            var resp = JsonConvert.DeserializeAnonymousType(jsonMessage, obj);
+            var worker = new Worker {
+                id_worker = Convert.ToInt32(resp.info.id_worker),
+                work_position = resp.info.update.work_position,
+                active = Convert.ToInt32(resp.info.update.active),
+                temporary = Convert.ToInt32(resp.info.update.temporary),
+                date_end = resp.info.update.date_end,
+                fio = resp.info.update.fio
+            };
+            workerEditor.Change(worker);
+            //Locator.Browser.ExecuteScriptAsync(@"receiveWorkers();");
         }
 
         public void FindWorkerAfterDecoding(string code) {
@@ -176,40 +185,42 @@ namespace ACSWebUI.ViewModel {
             Locator.Browser.ShowDevTools();
         }
 
-        public ICommand StartCardReadingCommand { get; } = new AutoRelayCommand(nameof(StartCardReading));
-        private void StartCardReading() {
-            var code = kmoonReader.ReadFullData();
-            if (code.Contains("Fail")) {
-                MessageBox.Show("Card reading error");
+        public ICommand StartCardReadingCommand { get; } = new AutoRelayCommand(nameof(StartCardReadingAsync));
+        private async void StartCardReadingAsync() {
+            if (!IsKpp)
                 return;
-            }
-            var result = workerReader.Get(code);
-            if (result == null)
-            {
-                Locator.Browser.ExecuteScriptAsync(@"InputWorkerUnknown(0);");
-                return;
-            }
 
-            var passage = new Passage
-            {
-                skip_id = result.id_worker,
-                date = DateTime.Now.ToShortDateString()
-            };
-            passageEditor.Add(passage);
+            await Task.Run(() => {
+                var code = kmoonReader.ReadFullData();
+                if (code.Contains("Fail")) {
+                    MessageBox.Show("Card reading error");
+                    return;
+                }
+                var result = workerReader.Get(code);
+                if (result == null) {
+                    Locator.Browser.ExecuteScriptAsync(@"InputWorkerUnknown(0);");
+                    return;
+                }
 
-            var datetime = Convert.ToDateTime(result.date_end);
-            if (datetime <= DateTime.Now)
-            {
-                var script = @"InputWorkerExpired(1, '" + result.fio + @"', '" + result.work_position + @"', '" + result.foto + @"'); InputAction('1');";
-                Locator.Browser.ExecuteScriptAsync(script);
-                return;
-            }
-            if (datetime < DateTime.Now)
-                return;
-            {
-                var script = @"InputWorkerSuccess(1, '" + result.fio + @"', '" + result.work_position + @"', '" + result.date_end + @"', '" + result.foto + @"'); InputAction('1');";
-                Locator.Browser.ExecuteScriptAsync(script);
-            }
+                var passage = new Passage {
+                    skip_id = result.id_worker,
+                    date = DateTime.Now.ToShortDateString()
+                };
+                passageEditor.Add(passage);
+
+                var datetime = Convert.ToDateTime(result.date_end);
+                if (datetime <= DateTime.Now) {
+                    var script = @"InputWorkerExpired(1, '" + result.fio + @"', '" + result.work_position + @"', '" + result.foto + @"'); InputAction('1');";
+                    Locator.Browser.ExecuteScriptAsync(script);
+                    return;
+                }
+                if (datetime < DateTime.Now)
+                    return;
+                {
+                    var script = @"InputWorkerSuccess(1, '" + result.fio + @"', '" + result.work_position + @"', '" + result.date_end + @"', '" + result.foto + @"'); InputAction('1');";
+                    Locator.Browser.ExecuteScriptAsync(script);
+                }
+            });
         }
     }
 }

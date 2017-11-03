@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ACSWebUI.Common.Extensions {
     public static class StringExtensions {
@@ -39,32 +40,34 @@ namespace ACSWebUI.Common.Extensions {
             return raw;
         }
 
-        public static string ToHttpGetRequest(this string data, string url) {
-            try {
-                var request = (HttpWebRequest)WebRequest.Create(url + data);
-                var cc = new CookieContainer();
-                request.CookieContainer = cc;
-                var response = (HttpWebResponse)request.GetResponse();
+        public static async Task<string> ToHttpGetRequestAsync(this string data, string url) {
+            return await Task.Run(() => {
+                try {
+                    var request = (HttpWebRequest)WebRequest.Create(url + data);
+                    var cc = new CookieContainer();
+                    request.CookieContainer = cc;
+                    var response = (HttpWebResponse)request.GetResponse();
 
-                foreach (Cookie c in response.Cookies) {
-                    cc.Add(c);
+                    foreach (Cookie c in response.Cookies) {
+                        cc.Add(c);
+                    }
+
+                    var finalRequest = (HttpWebRequest)WebRequest.Create(url + data);
+                    finalRequest.CookieContainer = cc;
+                    var streamReader = new StreamReader(finalRequest.GetResponse().GetResponseStream() ?? throw new InvalidOperationException());
+                    var result = streamReader.ReadToEnd();
+                    streamReader.Close();
+                    return result;
                 }
-
-                var finalRequest = (HttpWebRequest)WebRequest.Create(url + data);
-                finalRequest.CookieContainer = cc;
-                var streamReader = new StreamReader(finalRequest.GetResponse().GetResponseStream() ?? throw new InvalidOperationException());
-                var result = streamReader.ReadToEnd();
-                streamReader.Close();
-                return result;
-            }
-            catch (InvalidOperationException e) {
-                e.ToLog();
-                return "NoAnswer";
-            }
-            catch (Exception e) {
-                e.ToLog();
-                return "Unknow";
-            }
+                catch (InvalidOperationException e) {
+                    e.ToLog();
+                    return "NoAnswer";
+                }
+                catch (Exception e) {
+                    e.ToLog();
+                    return "Unknow";
+                }
+            });
         }
     }
 }

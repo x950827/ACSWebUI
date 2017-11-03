@@ -1,11 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
 using ACSWebUI.Locators;
 using CefSharp;
-using CefSharp.Wpf;
-using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 
 namespace ACSWebUI {
