@@ -10,11 +10,12 @@ using Newtonsoft.Json;
 
 namespace ACSWebUI.ViewModel.Flyouts {
     public class AuthorizationViewModel : AutoViewModelBase {
-        private string address = "http://osora.ru/scanner/external/index/";
-        private WebUIConfiguration configuration;
+        private readonly WebUIConfiguration configuration;
 
         public AuthorizationViewModel() {
             configuration = WebUIConfiguration.ReadConfiguration();
+            GetRequestAddress = configuration.getRequestAddress;
+            DomenAddress = configuration.domenAddress;
         }
 
         private bool isFlyoutOpen;
@@ -29,6 +30,18 @@ namespace ACSWebUI.ViewModel.Flyouts {
             set => Set(() => UniqueId, ref uniqueId, value);
         }
 
+        private string getReauestAddress;
+        public string GetRequestAddress {
+            get => getReauestAddress;
+            set => Set(() => GetRequestAddress, ref getReauestAddress, value);
+        }
+
+        private string domenAddress;
+        public string DomenAddress {
+            get => domenAddress;
+            set => Set(() => DomenAddress, ref domenAddress, value);
+        }
+
         private Visibility isAuthorizationResponceVisibile;
         public Visibility IsAuthorizationResponceVisibile {
             get => isAuthorizationResponceVisibile;
@@ -39,6 +52,12 @@ namespace ACSWebUI.ViewModel.Flyouts {
         public Visibility IsAuthorizationVisible {
             get => isAuthorizationVisible;
             set => Set(() => IsAuthorizationVisible, ref isAuthorizationVisible, value);
+        }
+
+        private Visibility isSettingVisibility = Visibility.Hidden;
+        public Visibility IsSettingsVisibility {
+            get => isSettingVisibility;
+            set => Set(() => IsSettingsVisibility, ref isSettingVisibility, value);
         }
 
         private bool isProgressRingActive;
@@ -68,7 +87,11 @@ namespace ACSWebUI.ViewModel.Flyouts {
         private async void Check() {
             IsProgressRingActive = true;
             IsAuthorizationVisible = Visibility.Hidden;
-            var response = uniqueId.ToHttpGetRequest("http://osora.ru/scanner/API/auth/?code=");
+            if (string.IsNullOrEmpty(configuration.getRequestAddress)) {
+                configuration.getRequestAddress = "http://osora.ru/scanner/API/auth/?code=";
+                configuration.WriteConfiguration();
+            }
+            var response = uniqueId.ToHttpGetRequest(configuration.getRequestAddress);
             var obj = new {
                 success = "",
                 data = new {
@@ -91,17 +114,51 @@ namespace ACSWebUI.ViewModel.Flyouts {
             if (json.success != "true")
                 return;
 
-            Locator.Browser.LoadHtml(json.data.html, "http://osora.ru/scanner");
-
-            if (json.data.deviceType == "office_kpp")
+            //uniqueId.ToHttpGetRequest("http://osora.ru/scanner/API/auth/?code=");
+            if (string.IsNullOrEmpty(configuration.domenAddress)) {
+                configuration.domenAddress = "http://osora.ru/scanner";
+                configuration.WriteConfiguration();
+            }
+            Locator.Browser.LoadHtml(json.data.html, configuration.domenAddress);
+            if (json.data.deviceType == "office_kpp") {
                 Locator.ViewModel.RunCaupture();
+                Locator.ViewModel.TestVisibility = Visibility.Visible;
+            }
+            Locator.Browser.FrameLoadEnd += BrowserOnFrameLoadEnd;
+            
+        }
+
+        public ICommand OpenSettingCommand { get; } = new AutoRelayCommand(nameof(OpenSettings));
+        private void OpenSettings() {
+            if (IsSettingsVisibility == Visibility.Hidden)
+                IsSettingsVisibility = Visibility.Visible;
+        }
+
+        public ICommand SaveChahgesCommand { get; } = new AutoRelayCommand(nameof(SaveChanges));
+        private void SaveChanges() {
+            configuration.getRequestAddress = GetRequestAddress;
+            configuration.domenAddress = DomenAddress;
+            configuration.WriteConfiguration();
+            IsSettingsVisibility = Visibility.Hidden;
+        }
+
+
+        private async void BrowserOnFrameLoadEnd(object sender, FrameLoadEndEventArgs frameLoadEndEventArgs) {
             await Task.Delay(1000);
+
+            if (!configuration.isCheckedBefore)
+            {
+                configuration.isCheckedBefore = true;
+                configuration.WriteConfiguration();
+            }
+
             IsAuthorizationResponceVisibile = Visibility.Visible;
             IsProgressRingActive = false;
             AuthorizationResponce = "Устройство успешно распознано";
             await Task.Delay(2000);
             IsAuthorizationResponceVisibile = Visibility.Hidden;
             IsAuthorizationVisible = Visibility.Visible;
+            Locator.Browser.FrameLoadEnd -= BrowserOnFrameLoadEnd;
             IsFlyoutOpen = false;
         }
 

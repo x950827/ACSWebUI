@@ -13,15 +13,21 @@ namespace ACSWebUI.Database.Functions.Readers {
         }
 
         public Passage Get(int id) {
-            return accessDatabase.Passages.FirstOrDefault(p => p.IdWorker == id).FromTable();
+            return accessDatabase.Passages.FirstOrDefault(p => p.SkipId == id).FromTable();
         }
 
         public Passage[] GetAll() {
-            return accessDatabase.Passages.FromTables();
+            var passages = accessDatabase.Passages.FromTables();
+            accessDatabase.Passages.RemoveRange(accessDatabase.Passages);
+            accessDatabase.SaveChanges();
+            return passages;
         }
 
         public string GetAllInJson() {
-            return JsonConvert.SerializeObject(accessDatabase.Passages.FromTables());
+            var json = JsonConvert.SerializeObject(accessDatabase.Passages.FromTables());
+            accessDatabase.Passages.RemoveRange(accessDatabase.Passages);
+            accessDatabase.SaveChanges();
+            return json;
         }
 
         public string GetRangeInJsone(int lastIndex) {

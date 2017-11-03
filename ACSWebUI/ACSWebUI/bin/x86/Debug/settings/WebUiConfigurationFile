@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WebUIConfiguration>
+	<isCheckedBefore>true</isCheckedBefore>
+	<getRequestAddress>http://osora.ru/scanner/API/auth/?code=</getRequestAddress>
+	<domenAddress>http://osora.ru/scanner</domenAddress>
+</WebUIConfiguration>

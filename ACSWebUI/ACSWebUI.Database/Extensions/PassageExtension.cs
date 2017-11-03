@@ -19,7 +19,7 @@ namespace ACSWebUI.Database.Extensions
 
             return new Passage
             {
-                id_worker = passage.IdWorker,
+                skip_id = passage.SkipId,
                 date = passage.Date,
             };
         }
@@ -36,7 +36,7 @@ namespace ACSWebUI.Database.Extensions
 
             return new PassageEntity
             {
-                IdWorker = passage.id_worker,
+                SkipId = passage.skip_id,
                 Date = passage.date,
             };
         }

@@ -1,7 +1,11 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
 using ACSWebUI.Locators;
 using CefSharp;
+using CefSharp.Wpf;
+using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 
 namespace ACSWebUI {
@@ -11,9 +15,14 @@ namespace ACSWebUI {
             InitializeComponent();
             Locator.Browser.BrowserSettings = new BrowserSettings { DefaultEncoding = "UTF-8" };
             Locator.Browser.RegisterJsObject("viewModel", Locator.ViewModel);
+            Locator.Browser.Name = "browser";
             MainGrid.Children.Add(Locator.Browser);
             Closing += OnClosing;
-            Closed += (sender, args) => Locator.ViewModel.StopCapture();
+            Closed += OnClosed;
+        }
+        private void OnClosed(object sender, EventArgs eventArgs) {
+            Locator.ViewModel.StopCapture();
+            Locator.ViewModel.getHistory();
         }
 
         private async void OnClosing(object sender, CancelEventArgs e) {

@@ -4,6 +4,7 @@
                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                       xmlns:flyouts="clr-namespace:ACSWebUI.View.Flyouts"
+                      xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                       Title="Access Control System"
                       MinWidth="600"
@@ -14,6 +15,7 @@
                       mc:Ignorable="d">
     <Window.InputBindings>
         <KeyBinding Key="F12" Command="{Binding OpenDebugCommand}" />
+        <KeyBinding Key="F5" Command="{Binding StartCardReadingCommand}" />
     </Window.InputBindings>
     <Grid x:Name="MainGrid" />
     <controls:MetroWindow.Flyouts>

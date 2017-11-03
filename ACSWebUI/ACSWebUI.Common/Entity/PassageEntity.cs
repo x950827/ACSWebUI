@@ -5,7 +5,7 @@ namespace ACSWebUI.Common.Entity {
         [Key]
         public int id { get; set; }
 
-        public int IdWorker { get; set; }
+        public int SkipId { get; set; }
 
         public string Date { get; set; }
     }

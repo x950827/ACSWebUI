@@ -153,6 +153,10 @@
     </ApplicationDefinition>
     <Compile Include="AdditionalObjects\AutoRelayCommand.cs" />
     <Compile Include="AdditionalObjects\AutoViewModelBase.cs" />
+    <Compile Include="Devices\Cards\Card.cs" />
+    <Compile Include="Devices\Cards\CardCommon.cs" />
+    <Compile Include="Devices\Cards\Readers\KmoonReader.cs" />
+    <Compile Include="Devices\Cards\Writers\KmoonWriter.cs" />
     <Compile Include="Devices\IpCamers.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="ViewModel\Flyouts\AuthorizationViewModel.cs" />

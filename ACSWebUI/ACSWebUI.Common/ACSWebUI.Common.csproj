@@ -90,6 +90,8 @@
     <Compile Include="Extensions\ExceptionExtension.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Functions\Cards\Readers\IKmoonReader.cs" />
+    <Compile Include="Functions\Cards\Writers\IKmoonWriter.cs" />
     <Compile Include="Functions\Editors\IPassageEditor.cs" />
     <Compile Include="Functions\Editors\IWorkerEditor.cs" />
     <Compile Include="Functions\Generator\UniqueIdGenerator.cs" />
@@ -104,5 +106,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
