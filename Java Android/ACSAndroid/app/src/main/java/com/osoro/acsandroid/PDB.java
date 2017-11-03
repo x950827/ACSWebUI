@@ -14,7 +14,7 @@ public class PDB {
     private static final String PASSAGES_TABLE = "passages";
 
     public static final String PASSAGE_COLUMN_ID = "_id";
-    public static final String PASSAGE_COLUMN_ID_WORKER = "id_worker";
+    public static final String PASSAGE_COLUMN_ID_WORKER = "skip_id";
     public static final String PASSAGE_COLUMN_DATE = "date";
 
     private static final String PASSAGES_DB_CREATE =
@@ -23,6 +23,9 @@ public class PDB {
                     PASSAGE_COLUMN_ID_WORKER + " integer, " +
                     PASSAGE_COLUMN_DATE + " text" +
                     ");";
+
+    private static final String PASSAGES_DB_DELETE =
+            "DROP TABLE IF EXISTS " + PASSAGES_TABLE;
 
 
     private final Context mCtx;
@@ -67,7 +70,7 @@ public class PDB {
 
     public void addPassage(final Passage passage) {
         ContentValues cv = new ContentValues();
-        cv.put(PASSAGE_COLUMN_ID_WORKER, passage.id_worker);
+        cv.put(PASSAGE_COLUMN_ID_WORKER, passage.skip_id);
         cv.put(PASSAGE_COLUMN_DATE, passage.date);
         mDB.insert(PASSAGES_TABLE, null, cv);
     }
@@ -82,13 +85,24 @@ public class PDB {
 
     public int getCount() {
         Cursor cursor = mDB.rawQuery("select * from " + PASSAGES_TABLE + " where " + PASSAGE_COLUMN_ID, null);
-        cursor.moveToNext();
-        int first = cursor.getInt(cursor.getColumnIndex(PASSAGE_COLUMN_ID));
-        if (cursor.moveToLast()) {
-            int last = cursor.getInt(cursor.getColumnIndex(PASSAGE_COLUMN_ID));
-            return last - first + 1;
+        int count = 0;
+        try {
+            if (cursor != null && cursor.getCount() > 0) {
+                try {
+                    int first = cursor.getInt(cursor.getColumnIndex(PASSAGE_COLUMN_ID));
+                    if (cursor.moveToLast()) {
+                        int last = cursor.getInt(cursor.getColumnIndex(PASSAGE_COLUMN_ID));
+                        count = last - first + 1;
+                    }
+                    return count;
+                } catch (Exception e) {
+                    return count;
+                }
+            }
+        } catch (Exception e) {
+            return count;
         }
-        return 0;
+        return count;
     }
 
     // удалить запись из WORKERS_TABLE
@@ -117,6 +131,8 @@ public class PDB {
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+            db.execSQL(PASSAGES_DB_DELETE);
+            onCreate(db);
         }
     }
 

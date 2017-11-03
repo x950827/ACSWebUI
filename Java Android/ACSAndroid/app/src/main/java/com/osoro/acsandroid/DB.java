@@ -39,6 +39,9 @@ public class DB {
                     WORKER_COLUMN_KEY_CODE + " text" +
                     ");";
 
+    private static final String WORKERS_DB_DELETE =
+            "DROP TABLE IF EXISTS " + WORKERS_TABLE;
+
 
     private final Context mCtx;
 
@@ -135,6 +138,8 @@ public class DB {
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+            db.execSQL(WORKERS_DB_DELETE);
+            onCreate(db);
         }
     }
 }

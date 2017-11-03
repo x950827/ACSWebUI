@@ -7,12 +7,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class Passage {
-    public final int id_worker;
+    public final int skip_id;
     public final String date;
 
 
     public Passage(int id_worker, String date) {
-        this.id_worker = id_worker;
+        this.skip_id = id_worker;
         this.date = date;
     }
 
@@ -20,7 +20,7 @@ public class Passage {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("date", passage.date);
-            jsonObject.put("id_worker", passage.id_worker);
+            jsonObject.put("skip_id", passage.skip_id);
 
         } catch (JSONException e) {
             e.printStackTrace();

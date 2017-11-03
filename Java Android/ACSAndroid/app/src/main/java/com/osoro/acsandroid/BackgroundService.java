@@ -40,7 +40,7 @@ public class BackgroundService extends Service {
     PDB pdb;
     Boolean isAuth = false;
     String cookies;
-    ImageView imageView;
+
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -255,8 +255,6 @@ public class BackgroundService extends Service {
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestProperty("Cookie", cookies);
             conn.setRequestMethod("POST");
-            //conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
-            //conn.setRequestProperty("Accept", "application/json");
             conn.setDoOutput(true);
             conn.setDoInput(true);
 
@@ -266,7 +264,6 @@ public class BackgroundService extends Service {
             }
             JSONObject jsonParam = Passage.toJsonArray(pdb.getAllPassages());
             String str = "data=" + jsonParam.toString();
-            //List nameValueParams = new ArrayList(1);
             OutputStream os = conn.getOutputStream();
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
             bw.write(str);

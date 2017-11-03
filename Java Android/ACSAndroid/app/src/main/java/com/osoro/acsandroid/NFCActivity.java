@@ -107,7 +107,7 @@ public class NFCActivity extends AppCompatActivity {
     public void findWorker(String response) {
         Cursor cursor = db.findWorker(response);
         try {
-            if (cursor != null) {
+            if (cursor != null && cursor.getCount() > 0) {
                 try {
                     if (cursor.moveToNext()) {
                         imageView.setImageResource(R.mipmap.passage);
@@ -130,11 +130,18 @@ public class NFCActivity extends AppCompatActivity {
                         showToast("Worker not found, Count: " + pdb.getCount());
                     }
                 } finally {
-                    cursor.close();
+                    try {
+                        cursor.close();
+
+                    } catch (Exception e) {
+
+                    }
                 }
+            } else {
+                imageView.setImageResource(R.mipmap.notfound);
+                showToast("Worker not found, Count: " + pdb.getCount());
             }
         } catch (SQLiteException e) {
-            //textView.setText(e.toString());
             showToast("findWorker: " + e.getMessage());
         }
     }
