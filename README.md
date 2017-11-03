@@ -13,3 +13,7 @@ Access Control System
 Переферия:
 - [SmartCardReader](https://en.wikipedia.org/wiki/Contactless_smart_card) [arc122u](https://www.acs.com.hk/en/products/3/acr122u-usb-nfc-reader/)
 - Webcam или IPcam
+
+Смартфон:
+- [Android 5.0 Lollipop](https://www.android.com/intl/ru_ru/versions/lollipop-5-0/)
+- [NFC](https://ru.wikipedia.org/wiki/Near_Field_Communication)
